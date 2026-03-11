@@ -7,6 +7,7 @@ fuel = 200
 max_fuel = 200
 full = True
 gear = 1
+fuel_notice = False
 print('''
 > help -To display commands
 > start - To start the car
@@ -70,9 +71,15 @@ while True:
     elif command == 'acc':
         if start and full:
             if fuel <= 0:
+                fuel_notice =  True
+                print('You are out of fuel!')
                 start = False
                 began = False
                 full = False
+                fuel = 0
+                speed = 0
+            elif fuel < 50 and not fuel_notice:
+                print('Your fuel is below 50L')
             began = True
             if speed == max_speed:
                 print(f'You have reached the speed limit of {speed}')
@@ -83,9 +90,15 @@ while True:
                     fuel = fuel - 20
                     print(f'Speed increased to {speed}')
                     if fuel <= 0:
+                        fuel_notice =  True
+                        print('You are out of fuel!')
                         start = False
                         began = False
                         full = False
+                        fuel = 0
+                        speed = 0
+                    elif fuel < 50 and not fuel_notice:
+                        print('Your fuel is below 50L')
                 elif gear < 3:
                     print('You are not in the third gear')
             
@@ -96,9 +109,15 @@ while True:
                     fuel = fuel - 20
                     print(f'Speed increased to {speed}')
                     if fuel <= 0:
+                        fuel_notice =  True
+                        print('You are out of fuel!')
                         start = False
                         began = False
                         full = False
+                        fuel = 0
+                        speed = 0
+                    elif fuel < 50 and not fuel_notice:
+                        print('Your fuel is below 50L')
                 elif gear != 2:
                     print('You are in the wrong gear')
             elif speed >= 0:
@@ -107,9 +126,15 @@ while True:
                     print(f'Speed increased to {speed}')
                     fuel = fuel - 20
                     if fuel <= 0:
+                        fuel_notice =  True
+                        print('You are out of fuel!')
                         start = False
                         began = False
                         full = False
+                        fuel = 0
+                        speed = 0
+                    elif fuel < 50 and not fuel_notice:
+                        print('Your fuel is below 50L')
                 elif gear != 1:
                     print('You are in the wrong gear')
                             
@@ -126,10 +151,22 @@ while True:
             # deccelerate
     elif command == 'dec':
         if fuel <= 0:
+            fuel_notice =  True
+            print('You are out of fuel!')
             start = False
             began = False
             full = False
-        if speed > 0:    
+            fuel = 0
+            speed = 0
+        elif fuel < 50 and not fuel_notice:
+            print('Your fuel is below 50L')
+        if speed > 0:
+            if speed > 180:
+                gear = 3
+            elif speed > 100:
+                gear = 2
+            else:
+                gear = 1   
             if start and full:
                 speed = speed - 10
                 fuel = fuel - 5
@@ -182,7 +219,14 @@ while True:
     elif command == 'quit':
         break
     elif command == "dash":
-        print(f'{speed}km/hr, {fuel}L, gear {gear}')
+        print(f'''
+---- DASHBOARD ----
+Speed : {speed} km/hr
+Fuel  : {fuel} L
+Gear  : {gear}
+Started : {start}
+-------------------
+''')
     elif command == 'gu':
         if gear == 3:
             print('You are at the highest gear')
