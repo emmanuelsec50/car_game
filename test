@@ -240,4 +240,4 @@ Started : {start}
             gear -= 1
             print(f'Your gear is down to {gear}')
     else:
-        print('Not recognized!')
+        print('Not recognized! Please try again')
